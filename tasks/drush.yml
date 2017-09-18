@@ -1,0 +1,47 @@
+---
+- name: Create dedicated drush user
+  user:
+    name: "{{ drush_user }}"
+    groups: "apache"
+    uid: "{{ drush_uid }}"
+    shell: "{{ drush_shell }}"
+    home: "{{ drush_homedir }}"
+    createhome: yes
+    state: present
+
+- name: Prepopulate authorized_keys for drush user
+  authorized_key:
+    user: "{{ drush_user }}"
+    key: "{{ drush_pub_keys }}"
+
+- name: Copy bashrc for druadmin. Sets SCL libpathing for PHP70
+  copy:
+    src: druadmin-bashrc
+    dest: "{{ drush_homedir }}/.bashrc"
+    owner: druadmin
+    group: druadmin
+    mode: 0644
+
+# Following tasks are taken from Jeff Geerling's ansible roles
+# https://github.com/geerlingguy/ansible-role-drush
+
+- name: Check current state.
+  stat:
+    path: "{{ drush_path }}"
+  register: drush_path_state
+
+- name: Perform cleanup of old symlink.
+  file:
+    path: "{{ drush_path }}"
+    state: absent
+  when: drush_path_state.stat.islnk is defined and drush_path_state.stat.islnk
+
+- name: Install Drush.
+  get_url:
+    url: "{{ drush_phar_url }}"
+    dest: "{{ drush_path }}"
+
+- name: Ensure Drush is executable.
+  file:
+    path: "{{ drush_path }}"
+    mode: 0755

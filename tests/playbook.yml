@@ -1,0 +1,14 @@
+- name: testplaybook.yml
+  hosts: all
+  become: yes
+  become_method: sudo
+
+  vars:
+    siteurl: test-seniorfellows.library.ucla.edu
+    apache_docroot: /opt/seniorfellows/www
+    dbpw: w2zgccr7ENfWhkkZ
+    dbuser: root
+    dbhost: localhost
+    db: d8
+  roles:
+    - { role: uclalib_role_drupal }

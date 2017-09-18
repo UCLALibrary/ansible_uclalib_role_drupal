@@ -1,0 +1,24 @@
+---
+- include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/{{ ansible_distribution }}.yml"
+
+- include_vars: 
+    file: "../vars/sec.yml"
+  no_log: True
+
+- include: install.yml
+  tags: [installsclpackages]
+
+- include: drush.yml
+  tags: [config_drush]
+
+- include: composer.yml
+  tags: [config_composer]
+
+- include: apache.yml
+  tags: [config_apache]
+
+- include: ssl.yml
+  when: siteurl is defined
+  tags: [config_ssl]

@@ -1,0 +1,52 @@
+---
+- name: Create Custom SSL PEM Directory
+  file:
+    path: "{{ apache_sslpemdir }}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Create SSL Key
+  copy:
+    content: "{{ secret_files[siteurl].key }}"
+    dest: "{{ apache_sslpemdir }}/{{ siteurl }}-key"
+    owner: root
+    group: root
+    mode: 0600
+  no_log: True
+
+- name: Create SSL Certificate
+  copy:
+    content: "{{ secret_files[siteurl].crt }}"
+    dest: "{{ apache_sslpemdir }}/{{ siteurl }}-crt"
+    owner: root
+    group: root
+    mode: 0644
+  no_log: True
+
+- name: Create SSL Intermediate
+  copy:
+    content: "{{ secret_files[siteurl].interm }}"
+    dest: "{{ apache_sslpemdir }}/{{ siteurl }}-interm"
+    owner: root
+    group: root
+    mode: 0644
+  no_log: True
+
+- name: Upload https vhost
+  template:
+    src: https-vhost.conf.j2
+    dest: "{{ apache_root }}/vhosts.d/{{ siteurl | default('localdev.local')}}-https.conf"
+    owner: root
+    group: root
+    mode: 0644
+  vars:
+    apache_listen_port: "443"
+    documentroot: "{{ apache_docroot }}"
+    servername: "{{ siteurl | default('localdev.local') }}"
+    accesslog: "{{ apache_root }}/logs/{{ siteurl | default('localdev.local') }}-http-access.log"
+    errorlog: "{{ apache_root }}/logs/{{ siteurl | default('localdev.local') }}-http-error.log"
+    ssl_certificate_file: "{{ apache_sslpemdir }}/{{ siteurl }}-crt"
+    ssl_certificate_key_file: "{{ apache_sslpemdir }}/{{ siteurl }}-key"
+    ssl_certificate_chain_file: "{{ apache_sslpemdir }}/{{ siteurl }}-interm"

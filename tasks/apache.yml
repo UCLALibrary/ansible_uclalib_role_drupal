@@ -1,0 +1,30 @@
+---
+- name: Ensure documentroot is present
+  file:
+    path: "{{ apache_docroot }}"
+    owner: druadmin
+    group: druadmin
+    mode: 0755
+    state: directory
+
+- name: Create vhosts.d directory
+  file:
+    path: "{{ apache_root }}/vhosts.d"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Upload http vhost
+  template:
+    src: http-vhost.conf.j2
+    dest: "{{ apache_root }}/vhosts.d/{{ siteurl | default('localdev.local')}}-http.conf"
+    owner: root
+    group: root
+    mode: 0644
+  vars:
+    apache_listen_port: "80"
+    documentroot: "{{ apache_docroot }}"
+    servername: "{{ siteurl | default('localdev.local') }}"
+    accesslog: "{{ apache_root }}/logs/{{ siteurl | default('localdev.local') }}-http-access.log"
+    errorlog: "{{ apache_root }}/logs/{{ siteurl | default('localdev.local') }}-http-error.log"

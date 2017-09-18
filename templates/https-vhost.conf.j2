@@ -1,0 +1,23 @@
+<VirtualHost {{ apache_listen_ip }}:{{ apache_listen_port }}>
+  ServerName {{ servername }}
+  DocumentRoot "{{ documentroot }}"
+  ServerAdmin {{ serveradmin }}
+  SSLEngine on
+  SSLCipherSuite {{ apache_ssl_cipher_suite }}
+  SSLProtocol {{ apache_ssl_protocol }}
+  SSLHonorCipherOrder On
+  SSLCompression off
+  SSLCertificateFile {{ ssl_certificate_file }}
+  SSLCertificateKeyFile {{ ssl_certificate_key_file }}
+{% if ssl_certificate_chain_file is defined %}
+  SSLCertificateChainFile {{ ssl_certificate_chain_file }}
+{% endif %}
+  <Directory "{{ documentroot }}">
+    AllowOverride {{ allow_override | default(apache_allow_override) }}
+    Options {{ options | default(apache_options) }}
+    Require all granted
+  </Directory>
+{% if extra_parameters is defined %}
+  {{ extra_parameters }}
+{% endif %}
+</VirtualHost>

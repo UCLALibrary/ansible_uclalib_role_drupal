@@ -1,0 +1,32 @@
+---
+sclrepo: rhel-server-rhscl-6-rpms
+
+apache: httpd24
+apache_service: httpd24-httpd
+
+apache_pkgs:
+  - httpd24
+  - httpd24-mod_ssl
+
+php_pkgs:
+  - rh-php70-php-gd
+  - rh-php70-php-pdo
+  - rh-php70-php-mysqlnd
+  - rh-php70-php-opcache
+  - rh-php70-php-xml
+  - rh-php70-php-cli
+  - rh-php70-php-mbstring
+  - rh-php70-php
+
+mysql_client_pkgs:
+  - MySQL-client-advanced
+
+uclalibrepo: http://yum.library.ucla.edu/rhel{{ ansible_distribution_major_version }}
+
+apache_root: /opt/rh/httpd24/root/etc/httpd
+apache_logdir: /opt/rh/httpd24/root/etc/httpd/logs
+
+apache_listen_ip: "*"
+apache_http_port: 80
+apache_ssl_port: 443
+apache_servername: localdev.local

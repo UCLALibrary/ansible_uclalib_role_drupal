@@ -1,0 +1,82 @@
+---
+- name: Enabling the required rpm repos # TODO: make this more idempotent see @sgurnick's java role tasks using shell + subscription-manager + register, failed_when, changed_when, & when ansible keywords
+  command: yum-config-manager --enable rhel-server-rhscl-6-rpms
+  when: ansible_distribution = 'RedHat' and ansible_distribution_major_version = '6'
+
+- name: Enabling the required rpm repos # TODO: make this more idempotent see @sgurnick's java role tasks using shell + subscription-manager + register, failed_when, changed_when, & when ansible keywords
+  command: yum-config-manager --enable rhel-server-rhscl-6-rpms
+  when: ansible_distribution = 'CentOS' and ansible_distribution_major_version = '6'
+
+- name: Installing apache, required php version + extensions
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - httpd24
+    - rh-php70-php-gd
+    - rh-php70-php-pdo
+    - rh-php70-php-mysqlnd
+    - rh-php70-php-opcache
+    - rh-php70-php-xml
+    - rh-php70-php-cli
+    - rh-php70-php-fpm
+    - mysql
+
+- name: configure apache to use php-fpm
+  copy:
+    src: fpm.conf
+    dest: /opt/rh/httpd24/root/etc/httpd/conf.d/fpm.conf
+
+- name: Link php command to binary
+  file:
+    src: /opt/rh/rh-php70/root/usr/bin/php
+    dest: /usr/bin/php
+    state: link
+    force: yes
+
+- name: Enable clean URLs via AllowOverride All via httpd-d8.conf
+  copy:
+    src: httpd-d8.conf
+    dest: /opt/rh/httpd24/root/etc/httpd/conf.d/httpd-d8.conf
+
+- name: Restart Webserver
+  command: echo "this task will restart the web services"
+  notify: "restart webserver"
+
+# - name: Get Drupal
+#   get_url:
+#     url: https://ftp.drupal.org/files/projects/drupal-8.3.7.tar.gz
+#     dest: /opt/rh/httpd24/root/var/www
+
+# - name: Unzip Drupal Archive
+#   unarchive:
+#     src: /opt/rh/httpd24/root/var/www/drupal-8.3.7.tar.gz
+#     dest: /opt/rh/httpd24/root/var/www
+#     # extra_opts: [--strip-components=1]
+#     remote_src: True
+
+# - name: link drupal up with vhost
+#   file:
+#     src: /opt/rh/httpd24/root/var/www/drupal-8.3.7
+#     dest: /opt/rh/httpd24/root/var/www/html
+#     state: link
+#     # force: yes
+
+# - name: Create Drupal files directory
+#   file:
+#     path: /opt/rh/httpd24/root/var/www/sites/default/files
+#     state: directory
+#     owner: apache
+#     group: apache
+#     mode: 0775
+
+# - name: Create a settings file
+#   copy:
+#     src: /opt/rh/httpd24/root/var/www/html/sites/default/default.settings.php
+#     dest: /opt/rh/httpd24/root/var/www/html/sites/default/settings.php
+#     owner: apache
+#     group: apache
+#     mode: 0744
+#     remote_src: true
+#     force: no
+    

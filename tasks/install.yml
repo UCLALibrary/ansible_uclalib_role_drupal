@@ -1,0 +1,38 @@
+---
+- name: Add Custom UCLA Library Yum Repository
+  yum_repository:
+    name: uclalib
+    description: Custom repo for containing RPMs not found in base or epel
+    baseurl: "{{ uclalibrepo }}"
+    gpgcheck: no
+    enabled: yes
+  register: uclalibrepoadded
+
+- name: Enable SCL repo for RHEL
+  command: yum-config-manager --enable "{{ sclrepo }}"
+  when: sclrepo is defined and ansible_distribution == "RedHat"
+
+- name: Enable SCL repo for CentOS
+  package: 
+    name: "{{ sclrepo }}"
+    state: present
+  when: sclrepo is defined and ansible_distribution == "CentOS"
+
+- name: Install apache and related packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ apache_pkgs }}"
+
+- name: Install PHP and required extensions
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ php_pkgs }}"
+
+- name: Installing MySQL-client
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ mysql_client_pkgs }}"
+  when: uclalibrepoadded is defined
