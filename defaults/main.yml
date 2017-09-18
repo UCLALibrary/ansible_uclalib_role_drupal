@@ -25,3 +25,5 @@ composer_keep_updated: false
 composer_home_path: '~/.composer'
 composer_home_owner: root
 composer_home_group: root
+
+site_url: localdev.local

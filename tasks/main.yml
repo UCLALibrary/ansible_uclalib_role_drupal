@@ -4,8 +4,7 @@
     - "../vars/{{ ansible_distribution }}.yml"
 
 - include_vars: 
-    file: "../vars/sec.yml"
-  no_log: True
+    file: "../vars/samplesec.yml"
 
 - include: install.yml
   tags: [installsclpackages]
@@ -20,5 +19,5 @@
   tags: [config_apache]
 
 - include: ssl.yml
-  when: siteurl is defined
+  when: ssl
   tags: [config_ssl]
