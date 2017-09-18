@@ -19,20 +19,26 @@
   when: sclrepo is defined and ansible_distribution == "CentOS"
 
 - name: Install apache and related packages
-  yum:
+  package:
     name: "{{ item }}"
     state: installed
   with_items: "{{ apache_pkgs }}"
 
 - name: Install PHP and required extensions
-  yum:
+  package:
     name: "{{ item }}"
     state: installed
   with_items: "{{ php_pkgs }}"
 
 - name: Installing MySQL-client
-  yum:
+  package:
     name: "{{ item }}"
     state: installed
   with_items: "{{ mysql_client_pkgs }}"
   when: uclalibrepoadded is defined
+
+- name: Install git
+  package:
+    name: git
+    state: installed
+  

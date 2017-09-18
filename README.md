@@ -1,31 +1,37 @@
-Role Name [![Build Status](https://travis-ci.org/UCLALibrary/uclalib_role_template.svg?branch=master)](https://travis-ci.org/UCLALibrary/uclalib_role_template)
+UCLALib Drupal Role [![Build Status](https://travis-ci.org/UCLALibrary/uclalib_role_template.svg?branch=master)](https://travis-ci.org/UCLALibrary/uclalib_role_drupal)
 =========
 
-A brief description of the role goes here.
+This role is still in heavy development. By default with running an example playbook in tests/defaultplaybook.yml, it'll install
+
+RHEL/CentOS SCLs
+PHP 7.0 and dependencies
+MySQLClient 5.6.32
+Drush 8
+Composer
+
+Optional(run other playbook tests/siteurldefinedplaybook.yml)
+HTTPS
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+CentOS 6 or RHEL 6
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- siteurl: test-seniorfellows.library.ucla.edu
+-- This will also set up SSL with associated cert/key pair. Not recommended for local dev unless you know what you're doing.
+- default siteurl: localdev.local
 
 Dependencies
 ------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+- SCL
+- UCLALib Yum repo for MySQL package
 
 Example Playbook
 ----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+See playbooks in tests directory
 
 License
 -------
@@ -34,5 +40,4 @@ BSD 3-Clause
 
 Author Information
 ------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Written by Casey Grzecka and Anthony Vuong from UCLA Library

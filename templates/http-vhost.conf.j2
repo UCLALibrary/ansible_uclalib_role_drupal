@@ -4,12 +4,15 @@
   ServerAdmin {{ serveradmin }}
   CustomLog {{ accesslog }} combined
   ErrorLog {{ errorlog }}
-  <Directory "{{ filetypes | default("index.php index.html")}} {{ documentroot }}">
+  <Directory "{{ documentroot }}">
     AllowOverride {{ allow_override | default(apache_allow_override) }}
     Options {{ options | default(apache_options) }}
     Require all granted
   </Directory>
 {% if extra_parameters is defined %}
   {{ extra_parameters }}
+{% endif %}
+{% if siteurl is defined %}
+  Redirect permanent / https://{{ siteurl }}/
 {% endif %}
 </VirtualHost>

@@ -14,8 +14,8 @@
 
 - name: Run Composer installer.
   command: >
-    php composer-installer.php
-    chdir: /tmp
+    /opt/rh/rh-php70/root/usr/bin/php composer-installer.php
+    chdir=/tmp
   when: not composer_bin.stat.exists
 
 - name: Move Composer into globally-accessible location.

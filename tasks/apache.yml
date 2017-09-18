@@ -15,6 +15,15 @@
     mode: 0755
     state: directory
 
+- name: Add configuration to include vhost configurations
+  copy:
+    src: includevhosts.conf
+    dest: "{{ apache_root }}/conf.d/includevhostsd.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache
+
 - name: Upload http vhost
   template:
     src: http-vhost.conf.j2
@@ -28,3 +37,4 @@
     servername: "{{ siteurl | default('localdev.local') }}"
     accesslog: "{{ apache_root }}/logs/{{ siteurl | default('localdev.local') }}-http-access.log"
     errorlog: "{{ apache_root }}/logs/{{ siteurl | default('localdev.local') }}-http-error.log"
+  notify: restart apache

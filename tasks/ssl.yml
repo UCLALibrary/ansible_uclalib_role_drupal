@@ -50,3 +50,4 @@
     ssl_certificate_file: "{{ apache_sslpemdir }}/{{ siteurl }}-crt"
     ssl_certificate_key_file: "{{ apache_sslpemdir }}/{{ siteurl }}-key"
     ssl_certificate_chain_file: "{{ apache_sslpemdir }}/{{ siteurl }}-interm"
+  notify: restart apache
