@@ -23,9 +23,6 @@ Role Variables
 - siteurl: test-seniorfellows.library.ucla.edu
 -- This will also set up SSL with associated cert/key pair. Not recommended for local dev unless you know what you're doing.
 - default siteurl: localdev.local
-  - This will also set up SSL with associated cert/key pair. Not recommended for local dev unless you know what you're doing.
-
-default siteurl: localdev.local
 
 Dependencies
 ------------
