@@ -5,7 +5,7 @@ apache_ssl_cipher_suite: "HIGH:!aNULL:!MD5"
 apache_allow_override: "All"
 apache_options: "-Indexes +FollowSymLinks"
 
-apache_docroot: /opt/rh/httpd24/root/var/www/html
+apache_docroot: /opt/localdev.local/www
 
 apache_listen_ip: "*"
 serveradmin: root@localhost
@@ -26,4 +26,4 @@ composer_home_path: '~/.composer'
 composer_home_owner: root
 composer_home_group: root
 
-site_url: localdev.local
+siteurl: localdev.local

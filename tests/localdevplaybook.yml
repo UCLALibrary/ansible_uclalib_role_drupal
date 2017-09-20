@@ -1,0 +1,13 @@
+- name: defaultplaybook.yml
+  hosts: all
+  become: yes
+  become_method: sudo
+
+  vars:
+    ssl: False
+    drush_pub_keys: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYBUqu5G5+Qmu8mWma8FcjiU8akfChh4kAXKgY4PDeJ29buhyKQlXaAwGrcwe/O3U8Niz7piOJWqkV0nHjvo/oV8BVrjkYzRhkXDhSX52nSHHNqYGuy619/mT4owmaBegTFwiQWWPh/wCYNpzQEX28DOe+4Ekc3gTwHwhjg+vFM3UTFnfg5ikYzhF1O6gz3W9AweGNkPHuIZpY8YH5ROrzreV9K9GIYGRICrHXWYP60JRxYWSITbUvbx40xBKwO85HrnPST2AOv+yrmpfHDEDt8d3ZD4lLbcTAu9rylVPEg63wD6zVw2spzdBp+rmMs9dsP2PBOUdVawId4J0tsN9v cgrzecka@library.ucla.edu
+      ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAgEAv9h1fz+diKDz5pvIM/FtHjjuCeDqIHk3xWQDaPgvtnMMO3m1FVGhoVFMFSqG1etlWCyVXijy5ZwUgAmNAK/6tun21D1vvR7sZEs4RcSnBo8Ascd1i3rsZFkzIiCLp5Dpk0RgOL18SbHBBCT4qriv+x3qPAybtWNqCp5xu8k3tNQbIEARFM5YUI0MY3t2rc9WwnOn4vlFL9M2A4yfNo5g9L6CQ/PHYvc/aWR+kN65OcM2PNObUuTCqnn/B/IAXwa+dWcwBiEPG3SYQh3oJKd+M1X0ZoiDbHZB0nSA9bHm1gT93H8ht8ZPcF5i7V9ce8L+92U1S0qu8FYB4weokLQeNfg1ErC5b5B365g+z+AYqUCOk9NoWxUwR9vf32Mqc+ol9MRLY99pnX6lsaSI42UpJFhaXlL66wsUJAC1Ol0aquI0WqOwKJc2wWr5b9X5apGEkV9CQD4UanshZe6EHBxDJqMTyopsimv0mrfgd05JT1VNS949bx0Xm+HIYZGtDX35SiTSFqawYJcbsYr9LK16YCtFLcUkisZ8/wmdzuK85zhMbnuWLeKoXOGZCe6/0UUpC9kwhhEb8Hs/UYVZgl6nR+l3qQuP4244tx758yPCY7zRYfpRHbg2Mdm85AbXPaBXUoG0RX8O9BqI6sSzfmTX4NlY0wn+au8mef+WWUptzak= cgrzecka@library.ucla.edu
+
+  roles:
+    - { role: uclalib_role_drupal }
