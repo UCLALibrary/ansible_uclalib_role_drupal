@@ -27,14 +27,14 @@
 - name: Upload http vhost
   template:
     src: http-vhost.conf.j2
-    dest: "{{ apache_root }}/vhosts.d/{{ siteurl | default('localdev.local')}}-http.conf"
+    dest: "{{ apache_root }}/vhosts.d/{{ siteurl }}-http.conf"
     owner: root
     group: root
     mode: 0644
   vars:
     apache_listen_port: "80"
     documentroot: "{{ apache_docroot }}"
-    servername: "{{ siteurl | default('localdev.local') }}"
-    accesslog: "{{ apache_root }}/logs/{{ siteurl | default('localdev.local') }}-http-access.log"
-    errorlog: "{{ apache_root }}/logs/{{ siteurl | default('localdev.local') }}-http-error.log"
+    servername: "{{ siteurl }}"
+    accesslog: "{{ apache_root }}/logs/{{ siteurl }}-http-access.log"
+    errorlog: "{{ apache_root }}/logs/{{ siteurl }}-http-error.log"
   notify: restart apache
